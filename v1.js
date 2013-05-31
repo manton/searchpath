@@ -42,6 +42,9 @@ function searchpath_getFieldId()
 
 function searchpath_getSite()
 {
+	// to test in your own copy, not hosted at searchpath.io, hard-code your site here
+	// return "yoursite.com";
+	
 	var s = location.href.split("?")[0];
 	var pieces = s.split("/");
 	var site = pieces[pieces.length-1];
