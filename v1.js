@@ -23,7 +23,7 @@ function searchpath_getParam(inName)
 			var name = param.split("=")[0];
 			var val = param.split("=")[1];
 			if (name == inName) {
-				return val;
+				return decodeURIComponent(val);
 			}
 		}
 	}
