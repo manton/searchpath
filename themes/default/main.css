@@ -1,0 +1,66 @@
+#searchpath_q {
+	position: relative;
+	z-index: 2;
+}
+
+#searchpath_backdrop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 1;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+	-webkit-backface-visibility: hidden;
+}
+
+#searchpath_pane {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	width: 450px;
+	height: 400px;
+	padding: 0px;
+	border-radius: 10px;
+	border: 1px solid gray;
+	background-color: #F7F7F7;
+	overflow: auto;
+	z-index: 3;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+}
+
+#searchpath_arrow {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	width: 16px;
+	height: 30px;
+	background-image: url(http://js.searchpath.io/themes/default/popover_arrow_left.png);
+	z-index: 4;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+}
+
+.searchpath_inside {
+	padding-top: 10px;
+	padding-left: 18px;
+	padding-right: 18px;
+	padding-bottom: 10px;
+}
+
+.searchpath_inside p {
+	font-size: 13px;
+	line-height: 18px;
+	text-align: left;
+	font-style: normal;
+	font-weight: normal;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.searchpath_highlight {
+	background-color: #FFF8D2;
+}
