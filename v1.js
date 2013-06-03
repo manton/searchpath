@@ -15,7 +15,16 @@ document.getElementsByTagName('head')[0].appendChild(css_link);
 
 function searchpath_getParam(inName)
 {
-	var s = location.href.split("?")[1];
+	var js_url = "";
+	var tags = document.getElementsByTagName("script");
+	for (var i = 0; i < tags.length; i++) {
+		var t = tags[i];
+		if (t.src.indexOf("searchpath.io/v1/") !== -1) {
+			js_url = t.src;
+		}
+	}
+
+	var s = js_url.split("?")[1];
 	if (s !== undefined) {
 		var params = s.split("&");
 		for (var i = 0; i < params.length; i++) {
@@ -264,7 +273,7 @@ function searchpath_isMobile()
 	return (navigator.userAgent.match(/iPhone/i) !== null);
 }
 
-if (searchpath_getParam("id") !== "") {
+if (searchpath_getParam("id") === "") {
 	document.write('<form class="form-search"><input type="search" name="q" id="searchpath_q" class="input-medium search-query" placeholder="' + searchpath_getParam("placeholder") + '" /></form>');
 }
 
