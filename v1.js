@@ -1,19 +1,4 @@
-var script = document.createElement('script');
-script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
-script.type = 'text/javascript';
-script.onload = function() {
-	document.searchpath_jQuery = jQuery.noConflict(true);
-};
-
-var css_link = document.createElement('link');
-css_link.rel = 'stylesheet';
-css_link.href = 'http://js.searchpath.io/css/light.css';
-css_link.type = 'text/css';
-
-document.getElementsByTagName('head')[0].appendChild(script);
-document.getElementsByTagName('head')[0].appendChild(css_link);
-
-function searchpath_getParam(inName)
+function searchpath_getScriptURL()
 {
 	var js_url = "";
 	var tags = document.getElementsByTagName("script");
@@ -23,7 +8,13 @@ function searchpath_getParam(inName)
 			js_url = t.src;
 		}
 	}
+	
+	return js_url;
+}
 
+function searchpath_getParam(inName)
+{
+	var js_url = searchpath_getScriptURL();
 	var s = js_url.split("?")[1];
 	if (s !== undefined) {
 		var params = s.split("&");
@@ -49,11 +40,25 @@ function searchpath_getFieldId()
 	return field_id;
 }
 
+function searchpath_getTheme()
+{
+	var theme = searchpath_getParam("theme");
+	if (theme === "") {
+		theme = "default";
+	}
+	return theme;
+}
+
 function searchpath_getSite()
 {
-	// to test in your own copy, not hosted at searchpath.io, hard-code your site here
-	// return "yoursite.com";
-	return document.location.hostname;
+	var site = document.location.hostname;
+	var js_url = searchpath_getScriptURL();
+	if (js_url !== "") {
+		var s = js_url.split("?")[0];
+		var pieces = s.split("/");
+		site = pieces[pieces.length-1];
+	}
+	return site;
 }
 
 function searchpath_go()
@@ -143,7 +148,7 @@ function searchpath_go()
 	}
 
 	if (direction == "up") {
-		copy_arrow.css("background-image", "url(http://js.searchpath.io/img/popover_arrow_up.png)");
+		copy_arrow.css("background-image", "url(http://js.searchpath.io/themes/" + searchpath_getTheme() + "/popover_arrow_up.png)");
 		copy_arrow.css({
 			width: "30px",
 			height: "16px",
@@ -152,7 +157,7 @@ function searchpath_go()
 		});
 	}
 	else if (direction == "down") {
-		copy_arrow.css("background-image", "url(http://js.searchpath.io/img/popover_arrow_down.png)");
+		copy_arrow.css("background-image", "url(http://js.searchpath.io/themes/" + searchpath_getTheme() + "/popover_arrow_down.png)");
 		copy_arrow.css({
 			width: "30px",
 			height: "16px",
@@ -161,7 +166,7 @@ function searchpath_go()
 		});
 	}
 	else if (direction == "right") {
-		copy_arrow.css("background-image", "url(http://js.searchpath.io/img/popover_arrow_right.png)");
+		copy_arrow.css("background-image", "url(http://js.searchpath.io/themes/" + searchpath_getTheme() + "/popover_arrow_right.png)");
 		copy_arrow.css({
 			top: link.offset().top - 4 + "px",
 			left: copy_pane.offset().left + copy_pane.width() + 1 + "px"
@@ -272,6 +277,21 @@ function searchpath_isMobile()
 {
 	return (navigator.userAgent.match(/iPhone/i) !== null);
 }
+
+var script = document.createElement("script");
+script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
+script.type = "text/javascript";
+script.onload = function() {
+	document.searchpath_jQuery = jQuery.noConflict(true);
+};
+
+var css_link = document.createElement("link");
+css_link.rel = "stylesheet";
+css_link.href = "http://js.searchpath.io/themes/" + searchpath_getTheme() + "/main.css";
+css_link.type = "text/css";
+
+document.getElementsByTagName('head')[0].appendChild(script);
+document.getElementsByTagName('head')[0].appendChild(css_link);
 
 if (searchpath_getParam("id") === "") {
 	document.write('<form class="form-search"><input type="search" name="q" id="searchpath_q" class="input-medium search-query" placeholder="' + searchpath_getParam("placeholder") + '" /></form>');
