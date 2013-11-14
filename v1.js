@@ -246,9 +246,23 @@ function searchpath_close()
 	}
 }
 
+function searchpath_probablyHasScrollBars()
+{
+	var result = true;
+	
+	if (navigator.userAgent.match(/WebKit/i) !== null) {
+		var bar_width = window.innerWidth - document.documentElement.clientWidth;
+		if (bar_width === 0) {
+			result = false;
+		}
+	}
+	
+	return result;
+}
+
 function searchpath_preventScroll()
 {
-	if (navigator.userAgent.match(/WebKit/i) !== null) {
+	if (!searchpath_probablyHasScrollBars()) {
 		var searchpath_j = document.searchpath_jQuery;
 		searchpath_j("body").css("overflow", "hidden");
 	}
@@ -256,7 +270,7 @@ function searchpath_preventScroll()
 
 function searchpath_restoreScroll()
 {
-	if (navigator.userAgent.match(/WebKit/i) !== null) {
+	if (!searchpath_probablyHasScrollBars()) {
 		var searchpath_j = document.searchpath_jQuery;
 		searchpath_j("body").css("overflow", "scroll");
 	}
@@ -278,19 +292,25 @@ function searchpath_isMobile()
 	return (navigator.userAgent.match(/iPhone/i) !== null);
 }
 
-var script = document.createElement("script");
-script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
-script.type = "text/javascript";
-script.onload = function() {
-	document.searchpath_jQuery = jQuery.noConflict(true);
-};
+if (searchpath_getParam("jquery") === "0") {
+	document.searchpath_jQuery = jQuery;
+}
+else {
+	var script = document.createElement("script");
+	script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";
+	script.type = "text/javascript";
+	script.onload = function() {
+		document.searchpath_jQuery = jQuery.noConflict(true);
+	};
+
+	document.getElementsByTagName('head')[0].appendChild(script);
+}
 
 var css_link = document.createElement("link");
 css_link.rel = "stylesheet";
 css_link.href = "http://js.searchpath.io/themes/" + searchpath_getTheme() + "/main.css";
 css_link.type = "text/css";
 
-document.getElementsByTagName('head')[0].appendChild(script);
 document.getElementsByTagName('head')[0].appendChild(css_link);
 
 if (searchpath_getParam("id") === "") {
