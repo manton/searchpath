@@ -190,7 +190,7 @@ function searchpath_go()
 
 	searchpath_preventScroll();
 
-	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&q=' + encodeURIComponent(q), function(response_data) {
+	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&path=' + encodeURIComponent(searchpath_getParam('path')) + '&q=' + encodeURIComponent(q), function(response_data) {
 		copy_pane.html(response_data);
 	});
 
@@ -204,7 +204,7 @@ function searchpath_mobile()
 	var q = search_box.value;
 	var body_tag = searchpath_j('body');
 
-	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&q=' + encodeURIComponent(q), function(response_data) {
+	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&path=' + encodeURIComponent(searchpath_getParam('path')) + '&q=' + encodeURIComponent(q), function(response_data) {
 		body_tag.html(response_data);
 		body_tag.append('<input type="hidden" id="' + searchpath_getFieldId() + '" value="' + encodeURIComponent(q) + '" />');
 
@@ -221,7 +221,7 @@ function searchpath_showMore()
 	var searchpath_j = document.searchpath_jQuery;
 	var search_box = document.getElementById(searchpath_getFieldId());
 	var q = search_box.value;
-	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&q=' + encodeURIComponent(q) + '&from=10&size=50', function(response_data) {
+	searchpath_j.get('http://js.searchpath.io/html?site=' + encodeURIComponent(searchpath_getSite()) + '&path=' + encodeURIComponent(searchpath_getParam('path')) + '&q=' + encodeURIComponent(q) + '&from=10&size=50', function(response_data) {
 		searchpath_j("#searchpath_more").html(response_data);
 	});
 }
